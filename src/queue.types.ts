@@ -27,6 +27,21 @@ export type QueueStatus = "pending" | "processing" | "success" | "failed" | "ski
 export type QueueItemType = "job" | "company" | "scrape"
 
 /**
+ * Granular sub-tasks for job processing pipeline.
+ *
+ * When a JOB queue item has a sub_task, it represents one step in the
+ * multi-stage processing pipeline. Items without sub_task (legacy) are
+ * processed monolithically through all stages.
+ *
+ * Pipeline flow:
+ * 1. scrape: Fetch HTML and extract basic job data (Claude Haiku)
+ * 2. filter: Apply strike-based filtering (no AI)
+ * 3. analyze: AI matching and resume intake generation (Claude Sonnet)
+ * 4. save: Save results to job-matches (no AI)
+ */
+export type JobSubTask = "scrape" | "filter" | "analyze" | "save"
+
+/**
  * Source of queue submission
  */
 export type QueueSource = "user_submission" | "automated_scan" | "scraper" | "webhook" | "email"
@@ -74,6 +89,12 @@ export interface QueueItem {
   processed_at?: Date | any | null // FirebaseFirestore.Timestamp
   completed_at?: Date | any | null // FirebaseFirestore.Timestamp
   scrape_config?: ScrapeConfig | null // Configuration for scrape requests (only used when type is "scrape")
+  scraped_data?: Record<string, any> | null // Pre-scraped job or company data
+
+  // Granular pipeline fields (only used when type is "job" with sub_task)
+  sub_task?: JobSubTask | null // Granular pipeline step (scrape/filter/analyze/save). null = legacy monolithic processing
+  pipeline_state?: Record<string, any> | null // State passed between pipeline steps (scraped data, filter results, etc.)
+  parent_item_id?: string | null // Document ID of parent item that spawned this sub-task
 }
 
 /**
