@@ -24,7 +24,7 @@ export type QueueStatus = "pending" | "processing" | "success" | "failed" | "ski
 /**
  * Queue item types
  */
-export type QueueItemType = "job" | "company" | "scrape"
+export type QueueItemType = "job" | "company" | "scrape" | "source_discovery"
 
 /**
  * Granular sub-tasks for job processing pipeline.
@@ -67,6 +67,33 @@ export interface ScrapeConfig {
 }
 
 /**
+ * Source type hint for discovery
+ */
+export type SourceTypeHint = "auto" | "greenhouse" | "workday" | "rss" | "generic"
+
+/**
+ * Configuration for source discovery requests
+ *
+ * Used when QueueItemType is "source_discovery" to discover and configure a new job source.
+ *
+ * Flow:
+ * 1. Portfolio submits URL for discovery
+ * 2. Job-finder detects source type (greenhouse, workday, rss, generic)
+ * 3. For known types: validate and create config
+ * 4. For generic: use AI selector discovery
+ * 5. Test scrape to validate
+ * 6. Create job-source document if successful
+ */
+export interface SourceDiscoveryConfig {
+  url: string // URL to analyze and configure
+  type_hint?: SourceTypeHint | null // Optional hint about source type (default: "auto")
+  company_id?: string | null // Optional company reference
+  company_name?: string | null // Optional company name
+  auto_enable?: boolean // Auto-enable if discovery succeeds (default: true)
+  validation_required?: boolean // Require manual validation before enabling (default: false)
+}
+
+/**
  * Queue item in Firestore (job-queue collection)
  *
  * Python equivalent: job_finder.queue.models.JobQueueItem
@@ -90,6 +117,7 @@ export interface QueueItem {
   completed_at?: Date | any | null // FirebaseFirestore.Timestamp
   scrape_config?: ScrapeConfig | null // Configuration for scrape requests (only used when type is "scrape")
   scraped_data?: Record<string, any> | null // Pre-scraped job or company data
+  source_discovery_config?: SourceDiscoveryConfig | null // Configuration for source discovery (only used when type is "source_discovery")
 
   // Granular pipeline fields (only used when type is "job" with sub_task)
   sub_task?: JobSubTask | null // Granular pipeline step (scrape/filter/analyze/save). null = legacy monolithic processing
@@ -223,5 +251,9 @@ export function isQueueStatus(status: string): status is QueueStatus {
 }
 
 export function isQueueItemType(type: string): type is QueueItemType {
-  return ["job", "company", "scrape"].includes(type)
+  return ["job", "company", "scrape", "source_discovery"].includes(type)
+}
+
+export function isSourceTypeHint(hint: string): hint is SourceTypeHint {
+  return ["auto", "greenhouse", "workday", "rss", "generic"].includes(hint)
 }
