@@ -1,0 +1,7 @@
+/**
+ * @jdubz/shared-types
+ *
+ * Shared TypeScript types for portfolio and job-finder integration
+ */
+
+export * from "./queue.types"
