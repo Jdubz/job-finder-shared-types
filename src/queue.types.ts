@@ -24,12 +24,32 @@ export type QueueStatus = "pending" | "processing" | "success" | "failed" | "ski
 /**
  * Queue item types
  */
-export type QueueItemType = "job" | "company"
+export type QueueItemType = "job" | "company" | "scrape"
 
 /**
  * Source of queue submission
  */
 export type QueueSource = "user_submission" | "automated_scan" | "scraper" | "webhook" | "email"
+
+/**
+ * Configuration for scrape requests
+ *
+ * Used when QueueItemType is "scrape" to specify custom scraping parameters.
+ *
+ * Behavior:
+ * - source_ids=null → scrape all available sources (with rotation)
+ * - source_ids=[...] → scrape only specific sources
+ * - target_matches=null → no early exit, scrape all allowed sources
+ * - target_matches=N → stop after finding N potential matches
+ * - max_sources=null → unlimited sources (until target_matches or all sources done)
+ * - max_sources=N → stop after scraping N sources
+ */
+export interface ScrapeConfig {
+  target_matches?: number | null // Stop after finding this many potential matches (null = no limit)
+  max_sources?: number | null // Maximum number of sources to scrape (null = unlimited)
+  source_ids?: string[] | null // Specific source IDs to scrape (null = all sources with rotation)
+  min_match_score?: number | null // Override minimum match score threshold
+}
 
 /**
  * Queue item in Firestore (job-queue collection)
@@ -53,6 +73,7 @@ export interface QueueItem {
   updated_at: Date | any // FirebaseFirestore.Timestamp
   processed_at?: Date | any | null // FirebaseFirestore.Timestamp
   completed_at?: Date | any | null // FirebaseFirestore.Timestamp
+  scrape_config?: ScrapeConfig | null // Configuration for scrape requests (only used when type is "scrape")
 }
 
 /**
@@ -158,11 +179,28 @@ export interface SubmitJobResponse {
   jobId?: string
 }
 
+/**
+ * Scrape submission request body (API)
+ */
+export interface SubmitScrapeRequest {
+  scrape_config?: ScrapeConfig
+}
+
+/**
+ * Scrape submission response (API)
+ */
+export interface SubmitScrapeResponse {
+  status: "success" | "error"
+  message: string
+  queueItemId?: string
+  queueItem?: QueueItem
+}
+
 // Type guard helpers
 export function isQueueStatus(status: string): status is QueueStatus {
   return ["pending", "processing", "success", "failed", "skipped", "filtered"].includes(status)
 }
 
 export function isQueueItemType(type: string): type is QueueItemType {
-  return ["job", "company"].includes(type)
+  return ["job", "company", "scrape"].includes(type)
 }
