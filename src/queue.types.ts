@@ -59,7 +59,14 @@ export type CompanySubTask = "fetch" | "extract" | "analyze" | "save"
 /**
  * Source of queue submission
  */
-export type QueueSource = "user_submission" | "automated_scan" | "scraper" | "webhook" | "email"
+export type QueueSource =
+  | "user_submission"
+  | "automated_scan"
+  | "scraper"
+  | "webhook"
+  | "email"
+  | "manual_submission"
+  | "user_request"
 
 /**
  * Configuration for scrape requests
@@ -258,6 +265,25 @@ export interface SubmitScrapeRequest {
  */
 export interface SubmitScrapeResponse {
   status: "success" | "error"
+  message: string
+  queueItemId?: string
+  queueItem?: QueueItem
+}
+
+/**
+ * Company submission request body (API)
+ */
+export interface SubmitCompanyRequest {
+  companyName: string
+  websiteUrl: string
+  source: "manual_submission" | "user_request" | "automated_scan"
+}
+
+/**
+ * Company submission response (API)
+ */
+export interface SubmitCompanyResponse {
+  status: "success" | "skipped" | "error"
   message: string
   queueItemId?: string
   queueItem?: QueueItem
