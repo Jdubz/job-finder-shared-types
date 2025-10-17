@@ -62,6 +62,8 @@ export interface StopList {
   excludedCompanies: string[]
   excludedKeywords: string[]
   excludedDomains: string[]
+  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedBy?: string // User email
 }
 
 /**
@@ -71,6 +73,8 @@ export interface QueueSettings {
   maxRetries: number
   retryDelaySeconds: number
   processingTimeout: number
+  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedBy?: string // User email
 }
 
 /**
@@ -86,6 +90,8 @@ export interface AISettings {
   model: string
   minMatchScore: number
   costBudgetDaily: number
+  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedBy?: string // User email
 }
 
 /**
