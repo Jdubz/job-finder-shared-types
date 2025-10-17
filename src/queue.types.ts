@@ -10,9 +10,16 @@
 
 /**
  * Queue item status lifecycle:
- * pending → processing → success/failed/skipped
+ * pending → processing → success/failed/skipped/filtered
+ *
+ * - pending: In queue, waiting to be processed
+ * - processing: Currently being processed
+ * - filtered: Rejected by filter engine (did not pass intake filters)
+ * - skipped: Skipped (duplicate or stop list blocked)
+ * - success: Successfully processed and saved to job-matches
+ * - failed: Processing error occurred
  */
-export type QueueStatus = "pending" | "processing" | "success" | "failed" | "skipped"
+export type QueueStatus = "pending" | "processing" | "success" | "failed" | "skipped" | "filtered"
 
 /**
  * Queue item types
@@ -121,6 +128,7 @@ export interface QueueStats {
   success: number
   failed: number
   skipped: number
+  filtered: number
   total: number
 }
 
@@ -146,7 +154,7 @@ export interface SubmitJobResponse {
 
 // Type guard helpers
 export function isQueueStatus(status: string): status is QueueStatus {
-  return ["pending", "processing", "success", "failed", "skipped"].includes(status)
+  return ["pending", "processing", "success", "failed", "skipped", "filtered"].includes(status)
 }
 
 export function isQueueItemType(type: string): type is QueueItemType {
