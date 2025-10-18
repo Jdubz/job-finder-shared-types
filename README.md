@@ -32,6 +32,8 @@ import {
   QueueItem,
   QueueStatus,
   JobMatch,
+  JobListing,
+  ResumeIntakeData,
   StopList,
   AISettings,
   QueueSettings
@@ -44,6 +46,18 @@ const queueItem: QueueItem = {
   url: 'https://example.com/job/123',
   company_name: 'Example Corp',
   // ...
+}
+
+const jobListing: JobListing = {
+  title: 'Senior Software Engineer',
+  company: 'Example Corp',
+  companyWebsite: 'https://example.com',
+  location: 'Remote',
+  description: 'We are looking for...',
+  url: 'https://example.com/job/123',
+  // Optional fields
+  postedDate: '2025-10-15',
+  salary: '$120k - $180k',
 }
 ```
 
@@ -90,17 +104,75 @@ Represents an item in the job processing queue.
 #### `QueueStatus`
 Processing status enum: `"pending"` | `"processing"` | `"success"` | `"failed"` | `"skipped"`
 
+#### `JobListing`
+Standard job data structure returned by scrapers (before AI analysis).
+
+**Required Fields:**
+- `title: string` - Job title/role
+- `company: string` - Company name
+- `companyWebsite: string` - Company website URL
+- `location: string` - Job location
+- `description: string` - Full job description
+- `url: string` - Job posting URL (unique identifier)
+
+**Optional Fields:**
+- `postedDate?: string | null` - Job posting date (null if not found)
+- `salary?: string | null` - Salary range (null if not listed)
+
+**Added During Processing:**
+- `companyInfo?: string` - Company about/culture (fetched after scraping)
+- `companyId?: string` - Firestore company document ID (added during analysis)
+- `resumeIntakeData?: ResumeIntakeData` - AI-generated resume customization
+
+#### `ResumeIntakeData`
+AI-generated resume customization data for tailoring applications.
+
+**Key Fields:**
+- `targetSummary: string` - Tailored professional summary (2-3 sentences)
+- `skillsPriority: string[]` - Priority-ordered skills list
+- `experienceHighlights: ExperienceHighlight[]` - Work experience to emphasize
+- `projectsToInclude: ProjectRecommendation[]` - Relevant projects (2-3)
+- `achievementAngles: string[]` - How to frame achievements
+- `atsKeywords: string[]` - **ATS optimization keywords (10-15 terms)** ⚠️ **SINGLE SOURCE OF TRUTH**
+- `gapMitigation?: GapMitigation[]` - Strategies for addressing missing skills
+
+**Important:** The `atsKeywords` field is the ONLY place ATS keywords are stored. There is NO job-level "keywords" field (removed in data cleanup).
+
 #### `JobMatch`
-AI-analyzed job match result.
+AI-analyzed job match result (saved to job-matches collection).
 
 **Fields:**
 - `id?: string` - Firestore document ID
 - `url: string` - Job posting URL
-- `company_name: string` - Company name
-- `match_score: number` - AI match score (0-100)
-- `match_reason: string` - Why this job matches
-- `priority: "High" | "Medium" | "Low"` - Application priority
-- Plus additional fields for skills, requirements, etc.
+- `companyName: string` - Company name
+- `companyId?: string | null` - Firestore company document ID
+- `jobTitle: string` - Job title/role
+- `matchScore: number` - AI match score (0-100)
+- `matchedSkills: string[]` - Skills matching requirements
+- `missingSkills: string[]` - Skills/requirements missing
+- `matchReasons: string[]` - Why this job matches
+- `keyStrengths: string[]` - Key strengths for this application
+- `potentialConcerns: string[]` - Potential gaps or concerns
+- `experienceMatch: number` - Experience level match (0-100)
+- `applicationPriority: "High" | "Medium" | "Low"` - Application priority
+- `customizationRecommendations: string[]` - Application customization tips
+- `resumeIntakeData?: ResumeIntakeData` - **Contains atsKeywords**
+- Plus timestamps, user info, and queue reference
+
+#### `Company`
+Company record (companies collection).
+
+**Fields:**
+- `id?: string` - Firestore document ID
+- `name: string` - Company name
+- `website: string` - Company website URL
+- `about?: string | null` - About/mission statement
+- `culture?: string | null` - Company culture
+- `headquartersLocation?: string | null` - HQ location
+- `companySizeCategory?: "large" | "medium" | "small" | null` - Size category
+- `techStack?: string[]` - Detected technologies
+- `tier?: "S" | "A" | "B" | "C" | "D" | null` - Priority tier for scraping
+- Plus analysis status and timestamps
 
 #### `StopList`
 Exclusion list for filtering jobs.

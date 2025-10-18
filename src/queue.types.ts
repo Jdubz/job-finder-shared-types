@@ -192,9 +192,12 @@ export interface AISettings {
 /**
  * Job match result (job-matches collection)
  *
- * Written by job-finder, read by portfolio
+ * DEPRECATED: Use JobMatch from job.types.ts instead.
+ * This interface is kept for backwards compatibility only.
+ *
+ * @deprecated Import JobMatch from './job.types' instead
  */
-export interface JobMatch {
+export interface JobMatchLegacy {
   id?: string
   url: string
   company_name: string
@@ -239,6 +242,7 @@ export interface QueueStats {
 export interface SubmitJobRequest {
   url: string
   companyName?: string
+  companyUrl?: string // Company website/careers page URL for intake pipeline
   generationId?: string // Optional: Link to portfolio generation request ID
 }
 
