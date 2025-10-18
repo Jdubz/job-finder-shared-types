@@ -1,5 +1,5 @@
 {
-  "name": "@jdubz/job-finder-shared-types",
+  "name": "@jsdubzw/job-finder-shared-types",
   "version": "1.0.0",
   "description": "Shared TypeScript type definitions for job-finder (Python) and portfolio (TypeScript) projects",
   "main": "dist/index.js",
