@@ -240,6 +240,13 @@ export function isResumeIntakeData(value: unknown): value is ResumeIntakeData {
 
   const data = value as Partial<ResumeIntakeData>
 
+  // Validate optional gapMitigation field if present
+  if (data.gapMitigation !== undefined) {
+    if (!Array.isArray(data.gapMitigation) || !data.gapMitigation.every(isGapMitigation)) {
+      return false
+    }
+  }
+
   return (
     typeof data.jobId === "string" &&
     typeof data.jobTitle === "string" &&
@@ -350,6 +357,31 @@ export function isContentItemVisibility(value: unknown): value is ContentItemVis
  * Type guard for base ContentItem fields (used by specific type guards)
  */
 function hasBaseContentItemFields(value: Record<string, unknown>): boolean {
+  // Validate optional visibility field if present
+  if (value.visibility !== undefined && !isContentItemVisibility(value.visibility)) {
+    return false
+  }
+
+  // Validate optional tags field if present
+  if (value.tags !== undefined && !isStringArray(value.tags)) {
+    return false
+  }
+
+  // Validate optional aiContext field if present
+  if (value.aiContext !== undefined) {
+    if (!isObject(value.aiContext)) return false
+    const aiContext = value.aiContext as any
+    if (aiContext.emphasize !== undefined && typeof aiContext.emphasize !== "boolean") {
+      return false
+    }
+    if (aiContext.omitFromResume !== undefined && typeof aiContext.omitFromResume !== "boolean") {
+      return false
+    }
+    if (aiContext.keywords !== undefined && !isStringArray(aiContext.keywords)) {
+      return false
+    }
+  }
+
   return (
     typeof value.id === "string" &&
     isContentItemType(value.type) &&
@@ -372,6 +404,16 @@ export function isCompanyItem(value: unknown): value is CompanyItem {
 
   const item = value as Partial<CompanyItem>
 
+  // Validate optional fields if present
+  if (item.role !== undefined && typeof item.role !== "string") return false
+  if (item.location !== undefined && typeof item.location !== "string") return false
+  if (item.website !== undefined && typeof item.website !== "string") return false
+  if (item.endDate !== undefined && item.endDate !== null && typeof item.endDate !== "string") return false
+  if (item.summary !== undefined && typeof item.summary !== "string") return false
+  if (item.accomplishments !== undefined && !isStringArray(item.accomplishments)) return false
+  if (item.technologies !== undefined && !isStringArray(item.technologies)) return false
+  if (item.notes !== undefined && typeof item.notes !== "string") return false
+
   return (
     item.type === "company" &&
     typeof item.company === "string" &&
@@ -387,6 +429,23 @@ export function isProjectItem(value: unknown): value is ProjectItem {
   if (!hasBaseContentItemFields(value)) return false
 
   const item = value as Partial<ProjectItem>
+
+  // Validate optional fields if present
+  if (item.role !== undefined && typeof item.role !== "string") return false
+  if (item.startDate !== undefined && typeof item.startDate !== "string") return false
+  if (item.endDate !== undefined && item.endDate !== null && typeof item.endDate !== "string") return false
+  if (item.accomplishments !== undefined && !isStringArray(item.accomplishments)) return false
+  if (item.technologies !== undefined && !isStringArray(item.technologies)) return false
+  if (item.challenges !== undefined && !isStringArray(item.challenges)) return false
+  if (item.context !== undefined && typeof item.context !== "string") return false
+  if (item.links !== undefined) {
+    if (!Array.isArray(item.links)) return false
+    for (const link of item.links) {
+      if (!isObject(link) || typeof link.label !== "string" || typeof link.url !== "string") {
+        return false
+      }
+    }
+  }
 
   return item.type === "project" && typeof item.name === "string" && typeof item.description === "string"
 }
@@ -416,6 +475,19 @@ export function isEducationItem(value: unknown): value is EducationItem {
 
   const item = value as Partial<EducationItem>
 
+  // Validate optional fields if present
+  if (item.degree !== undefined && typeof item.degree !== "string") return false
+  if (item.field !== undefined && typeof item.field !== "string") return false
+  if (item.location !== undefined && typeof item.location !== "string") return false
+  if (item.startDate !== undefined && typeof item.startDate !== "string") return false
+  if (item.endDate !== undefined && item.endDate !== null && typeof item.endDate !== "string") return false
+  if (item.honors !== undefined && typeof item.honors !== "string") return false
+  if (item.description !== undefined && typeof item.description !== "string") return false
+  if (item.relevantCourses !== undefined && !isStringArray(item.relevantCourses)) return false
+  if (item.credentialId !== undefined && typeof item.credentialId !== "string") return false
+  if (item.credentialUrl !== undefined && typeof item.credentialUrl !== "string") return false
+  if (item.expiresAt !== undefined && typeof item.expiresAt !== "string") return false
+
   return item.type === "education" && typeof item.institution === "string"
 }
 
@@ -443,6 +515,12 @@ export function isAccomplishmentItem(value: unknown): value is AccomplishmentIte
   if (!hasBaseContentItemFields(value)) return false
 
   const item = value as Partial<AccomplishmentItem>
+
+  // Validate optional fields if present
+  if (item.context !== undefined && typeof item.context !== "string") return false
+  if (item.impact !== undefined && typeof item.impact !== "string") return false
+  if (item.technologies !== undefined && !isStringArray(item.technologies)) return false
+  if (item.date !== undefined && typeof item.date !== "string") return false
 
   return item.type === "accomplishment" && typeof item.description === "string"
 }
