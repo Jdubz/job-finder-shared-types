@@ -9,7 +9,6 @@ import type {
   ApiResponse,
   ApiSuccessResponse,
   ApiErrorResponse,
-  ApiErrorCode,
   CallableContext,
   CallableResponse,
   GenerateResumeRequest,
@@ -19,6 +18,7 @@ import type {
 } from "../src/index"
 
 import {
+  ApiErrorCode,
   isApiSuccess,
   isApiError,
   createSuccessResponse,
@@ -35,7 +35,7 @@ const successExample: ApiSuccessResponse<{ id: string }> = {
 const errorExample: ApiErrorResponse = {
   success: false,
   error: {
-    code: "NOT_FOUND",
+    code: ApiErrorCode.NOT_FOUND,
     message: "Resource not found"
   }
 }
@@ -84,7 +84,7 @@ type MyCallable = (
 
 // Example 5: Helper functions
 const success = createSuccessResponse({ id: "123" }, "Created")
-const error = createErrorResponse("VALIDATION_FAILED", "Invalid input")
+const error = createErrorResponse(ApiErrorCode.VALIDATION_FAILED, "Invalid input")
 
 // Type-check successful - this file compiles
 export {}
