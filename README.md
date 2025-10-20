@@ -8,12 +8,12 @@ Shared TypeScript type definitions for the job-finder (Python) and portfolio (Ty
 ## Overview
 
 This package contains TypeScript type definitions that are:
-- **Used directly** by the Portfolio project (TypeScript/Firebase)
+- **Used directly** by the job-finder-FE project (TypeScript/Firebase)
 - **Mirrored** in Pydantic models by the job-finder project (Python)
 
 ## Installation
 
-### For TypeScript Projects (Portfolio)
+### For TypeScript Projects (job-finder-FE)
 
 ```bash
 npm install @jdubz/job-finder-shared-types
@@ -281,7 +281,7 @@ class JobQueueItem(BaseModel):
              │                              │
              ▼                              ▼
    ┌──────────────────┐          ┌──────────────────┐
-   │    Portfolio     │          │   Job-Finder     │
+   │    job-finder-FE     │          │   Job-Finder     │
    │   (TypeScript)   │          │     (Python)     │
    │                  │          │                  │
    │ Direct Import    │          │ Pydantic Models  │
@@ -299,7 +299,7 @@ class JobQueueItem(BaseModel):
 1. **Update TypeScript types** in this repository
 2. **Rebuild the package:** `npm run build`
 3. **Commit and push** to GitHub
-4. **Update Portfolio:** `npm update @jdubz/job-finder-shared-types`
+4. **Update job-finder-FE:** `npm update @jdubz/job-finder-shared-types`
 5. **Update Python models** in job-finder to mirror changes
 6. **Test both projects** together
 7. **Deploy to staging** and verify integration
@@ -342,7 +342,7 @@ git push && git push --tags
 
 ## Related Projects
 
-- **Portfolio:** [github.com/Jdubz/portfolio](https://github.com/Jdubz/portfolio)
+- **job-finder-FE:** [github.com/Jdubz/portfolio](https://github.com/Jdubz/portfolio)
 - **Job-Finder:** [github.com/Jdubz/job-finder](https://github.com/Jdubz/job-finder)
 
 ## Documentation
@@ -350,7 +350,7 @@ git push && git push --tags
 For detailed integration documentation, see:
 - [Type Synchronization Guide](./docs/synchronization.md) (TODO)
 - [Python Pydantic Examples](./docs/python-examples.md) (TODO)
-- [Portfolio Integration](https://github.com/Jdubz/portfolio/blob/main/CLAUDE.md)
+- [job-finder-FE Integration](https://github.com/Jdubz/portfolio/blob/main/CLAUDE.md)
 - [Job-Finder Integration](https://github.com/Jdubz/job-finder/blob/main/CLAUDE.md)
 
 ## License

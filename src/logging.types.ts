@@ -141,7 +141,7 @@ export interface CloudLoggingLabels {
  * TypeScript: CloudLogEntry interface
  * Python: Not used directly (Cloud Logging client handles this)
  *
- * This is what Portfolio UI receives when querying Cloud Logging API.
+ * This is what job-finder-FE UI receives when querying Cloud Logging API.
  */
 export interface CloudLogEntry {
   // Standard Cloud Logging fields
@@ -167,12 +167,12 @@ export interface CloudLogEntry {
 }
 
 /**
- * Log query options for Portfolio UI
+ * Log query options for job-finder-FE UI
  *
  * TypeScript: LogQueryOptions interface
- * Python: Not used (Portfolio-only)
+ * Python: Not used (job-finder-FE-only)
  *
- * Used in Portfolio hooks/components to fetch logs from Cloud Logging.
+ * Used in job-finder-FE hooks/components to fetch logs from Cloud Logging.
  *
  * Example usage:
  * ```typescript
@@ -211,12 +211,12 @@ export interface LogQueryOptions {
 }
 
 /**
- * Log query result from Portfolio server action / Cloud Function
+ * Log query result from job-finder-FE server action / Cloud Function
  *
  * TypeScript: LogQueryResult interface
- * Python: Not used (Portfolio-only)
+ * Python: Not used (job-finder-FE-only)
  *
- * Returned by Portfolio server actions that query Cloud Logging.
+ * Returned by job-finder-FE server actions that query Cloud Logging.
  */
 export interface LogQueryResult {
   logs: CloudLogEntry[]
@@ -228,9 +228,9 @@ export interface LogQueryResult {
  * Helper type for log filtering
  *
  * TypeScript: BuildFilterParams type
- * Python: Not used (Portfolio-only)
+ * Python: Not used (job-finder-FE-only)
  *
- * Used in Portfolio to build Cloud Logging query filters.
+ * Used in job-finder-FE to build Cloud Logging query filters.
  */
 export type BuildFilterParams = {
   logName?: string
