@@ -370,7 +370,7 @@ function hasBaseContentItemFields(value: Record<string, unknown>): boolean {
   // Validate optional aiContext field if present
   if (value.aiContext !== undefined) {
     if (!isObject(value.aiContext)) return false
-    const aiContext = value.aiContext as any
+    const aiContext = value.aiContext as Record<string, unknown>
     if (aiContext.emphasize !== undefined && typeof aiContext.emphasize !== "boolean") {
       return false
     }
