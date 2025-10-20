@@ -5,13 +5,17 @@ This directory contains GitHub Actions workflows for automated CI/CD.
 ## Workflows
 
 ### CI (`ci.yml`)
-Runs on every pull request and push to main/staging branches.
+
+Runs on every push to main branch.
+
 - Type checks TypeScript code
 - Builds the package
 - Verifies build output
 
 ### Publish (`publish.yml`)
+
 Automatically publishes the package to npm when changes are merged to main.
+
 - Only publishes if the version number has changed
 - Creates a git tag for the release
 - Requires `NPM_TOKEN` secret to be configured
