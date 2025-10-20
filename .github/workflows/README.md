@@ -54,14 +54,16 @@ When you want to publish a new version:
    npm version patch  # or minor, major
    ```
 
-2. Commit and push to main:
+2. Update `CHANGELOG.md` with your changes under the `[Unreleased]` section
+
+3. Commit and push to main:
    ```bash
-   git add package.json
+   git add package.json CHANGELOG.md
    git commit -m "chore: bump version to x.x.x"
    git push origin main
    ```
 
-3. The GitHub Action will automatically:
+4. The GitHub Action will automatically:
    - Build the package
    - Publish to npm (if version changed)
    - Create a git tag

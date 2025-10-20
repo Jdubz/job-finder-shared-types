@@ -330,15 +330,33 @@ This runs TypeScript compilation without emitting files to catch type errors.
 
 ### Publishing
 
-Publishing is done automatically via GitHub Actions when a new version tag is pushed:
+Publishing is done automatically via GitHub Actions when changes are pushed to the main branch with an updated version number.
 
-```bash
-# Update version in package.json
-npm version patch  # or minor, major
+#### Automated Publishing Workflow
 
-# Push with tags
-git push && git push --tags
-```
+1. **Update the version** in `package.json`:
+   ```bash
+   npm version patch  # For bug fixes (1.1.1 → 1.1.2)
+   npm version minor  # For new features (1.1.2 → 1.2.0)
+   npm version major  # For breaking changes (1.2.0 → 2.0.0)
+   ```
+
+2. **Update CHANGELOG.md** with your changes
+
+3. **Commit and push** to the main branch:
+   ```bash
+   git add package.json CHANGELOG.md
+   git commit -m "chore: bump version to x.x.x"
+   git push origin main
+   ```
+
+4. **GitHub Actions automatically**:
+   - Runs type checks and builds the package
+   - Compares the version in package.json with the published version on npm
+   - Publishes to npm (if the version is new)
+   - Creates a git tag for the release
+
+**Note:** The NPM_TOKEN secret must be configured in the repository settings for automated publishing to work. See [.github/workflows/README.md](.github/workflows/README.md) for setup instructions.
 
 ## Related Projects
 
