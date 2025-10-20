@@ -330,15 +330,67 @@ This runs TypeScript compilation without emitting files to catch type errors.
 
 ### Publishing
 
-Publishing is done automatically via GitHub Actions when a new version tag is pushed:
+This package is automatically published to npm via GitHub Actions when a new version tag is pushed.
+
+#### Publishing Workflow
+
+1. **Update version** (following [Semantic Versioning](https://semver.org/)):
+   ```bash
+   npm version patch  # Bug fixes: 1.1.1 -> 1.1.2
+   npm version minor  # New features: 1.1.2 -> 1.2.0
+   npm version major  # Breaking changes: 1.2.0 -> 2.0.0
+   ```
+
+2. **Update CHANGELOG.md**:
+   - Document changes in the `[Unreleased]` section
+   - Move them to a new version section
+   - Follow [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format
+
+3. **Commit changes**:
+   ```bash
+   git add .
+   git commit -m "chore: release v1.x.x"
+   ```
+
+4. **Push with tags**:
+   ```bash
+   git push && git push --tags
+   ```
+
+5. **Monitor workflow**:
+   - GitHub Actions will automatically:
+     - Run tests (`npm test`)
+     - Build package (`npm run build`)
+     - Check if version already exists on npm
+     - Publish to npm registry (if new version)
+     - Create a git tag
+   - Check progress at: https://github.com/Jdubz/job-finder-shared-types/actions
+
+6. **Verify publication**:
+   ```bash
+   # View on npm
+   open https://www.npmjs.com/package/@jdubzw/job-finder-shared-types
+   
+   # Install in consuming project
+   npm install @jdubzw/job-finder-shared-types@latest
+   ```
+
+#### Manual Publishing (Not Recommended)
+
+If needed, you can publish manually:
 
 ```bash
-# Update version in package.json
-npm version patch  # or minor, major
-
-# Push with tags
-git push && git push --tags
+npm run clean && npm run build
+npm publish --dry-run  # Test first
+npm publish            # Requires NPM_TOKEN
 ```
+
+#### Troubleshooting
+
+- **Version already exists**: Bump version with `npm version patch`
+- **Authentication error**: Ensure `NPM_TOKEN` secret is set in GitHub repo settings
+- **Build fails**: Run `npm test` and `npm run build` locally first
+- **Tag conflicts**: Delete local tag with `git tag -d v1.x.x` and remote with `git push origin :refs/tags/v1.x.x`
 
 ## Related Projects
 
