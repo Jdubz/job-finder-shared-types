@@ -4,10 +4,29 @@ This file provides guidance to Claude Code when working with the shared-types re
 
 ## Repository Overview
 
-`@jdubz/shared-types` is a centralized TypeScript type definitions package that serves as the **single source of truth** for data structures shared across:
+`@jdubz/shared-types` is a centralized TypeScript type definitions package that serves as the **single source of truth** for data structures shared across the Job Finder project.
 
+<<<<<<< HEAD
 1. **job-finder-FE** (TypeScript/Gatsby + Firebase Functions)
 2. **Job-finder** (Python with Firestore integration)
+=======
+### Project Management
+
+**IMPORTANT**: This repository is part of a multi-repository project managed centrally.
+
+- **Task Tracking**: ALL task tracking is done in [job-finder-app-manager](https://github.com/Jdubz/job-finder-app-manager)
+- **Workflow**: Push changes directly to `main` branch (no PR required for types)
+- **Coordination**: Discuss type changes with team before implementation
+- **Documentation**: Architecture docs live here, project management in manager repo
+
+### Integration
+
+This types package is used by:
+
+1. **job-finder-FE** (TypeScript/React) - Frontend application
+2. **job-finder-BE** (TypeScript/Firebase Functions) - Backend API
+3. **job-finder** (Python with Firestore) - Queue worker (mirrors types in Pydantic)
+>>>>>>> 9f441a0 (Update documentation: Add project management context)
 
 By maintaining types in this shared repository, we ensure:
 - Type consistency across TypeScript and Python codebases
@@ -17,24 +36,45 @@ By maintaining types in this shared repository, we ensure:
 
 ## Architecture Context
 
+<<<<<<< HEAD
 ### Integration with job-finder-FE
+=======
+### Integration with Frontend (job-finder-FE)
+>>>>>>> 9f441a0 (Update documentation: Add project management context)
 
-The portfolio project imports this package as a local npm dependency:
+The frontend imports this package as a dependency:
 
 ```json
 {
   "dependencies": {
-    "@jdubz/shared-types": "file:../shared-types"
+    "@jsdubzw/job-finder-shared-types": "^1.x.x"
   }
 }
 ```
 
 **Used in:**
-- `functions/src/` - Cloud Functions for job queue management API
-- `web/src/api/` - Frontend API clients for job submission
-- `web/src/types/` - Type definitions for UI components
+- `src/api/` - API client type definitions
+- `src/types/` - Component prop types
+- `src/contexts/` - State management types
 
-### Integration with Job-Finder
+### Integration with Backend (job-finder-BE)
+
+The backend Firebase Functions import this package:
+
+```json
+{
+  "dependencies": {
+    "@jsdubzw/job-finder-shared-types": "^1.x.x"
+  }
+}
+```
+
+**Used in:**
+- `functions/src/` - Cloud Function API contracts
+- Firestore data validation
+- API request/response types
+
+### Integration with Queue Worker (job-finder)
 
 The job-finder Python project references these types as the authoritative schema:
 
