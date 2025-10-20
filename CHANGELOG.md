@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Package configuration for npm publishing
 - TypeScript build outputs with declaration files
 
-## [1.0.0] - Initial Release
+## [1.0.0]
 
 ### Added
 - Initial package structure

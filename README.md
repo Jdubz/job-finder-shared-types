@@ -363,7 +363,6 @@ This package is automatically published to npm via GitHub Actions when a new ver
      - Build package (`npm run build`)
      - Check if version already exists on npm
      - Publish to npm registry (if new version)
-     - Create a git tag
    - Check progress at: https://github.com/Jdubz/job-finder-shared-types/actions
 
 6. **Verify publication**:
