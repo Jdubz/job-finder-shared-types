@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working with the shared-types re
 
 `@jdubz/shared-types` is a centralized TypeScript type definitions package that serves as the **single source of truth** for data structures shared across:
 
-1. **Portfolio** (TypeScript/Gatsby + Firebase Functions)
+1. **job-finder-FE** (TypeScript/Gatsby + Firebase Functions)
 2. **Job-finder** (Python with Firestore integration)
 
 By maintaining types in this shared repository, we ensure:
@@ -17,7 +17,7 @@ By maintaining types in this shared repository, we ensure:
 
 ## Architecture Context
 
-### Integration with Portfolio
+### Integration with job-finder-FE
 
 The portfolio project imports this package as a local npm dependency:
 
@@ -195,7 +195,7 @@ When making breaking changes:
 
 ## Integration Examples
 
-### Portfolio (TypeScript)
+### job-finder-FE (TypeScript)
 
 **Functions API:**
 ```typescript
@@ -258,7 +258,7 @@ class JobQueueItem(BaseModel):
 
 ## Related Documentation
 
-- **Portfolio:** `/home/jdubz/Development/portfolio/CLAUDE.md`
+- **job-finder-FE:** `/home/jdubz/Development/portfolio/CLAUDE.md`
 - **Job-finder:** `/home/jdubz/Development/job-finder/CONTEXT.md`
 - **Integration Guide:** `/home/jdubz/Development/portfolio/PORTFOLIO_INTEGRATION_GUIDE.md`
 - **Package README:** `./README.md`

@@ -6,3 +6,4 @@
 
 export * from "./queue.types"
 export * from "./job.types"
+export * from "./logging.types"
