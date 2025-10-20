@@ -19,7 +19,6 @@ tsconfig.tsbuildinfo
 
 # Documentation that's not needed in package
 CONTEXT.md
-docs/
 
 # Keep these in the package:
 # - README.md (included via files field)
