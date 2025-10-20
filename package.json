@@ -1,6 +1,6 @@
 {
   "name": "@jsdubzw/job-finder-shared-types",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Shared TypeScript type definitions for job-finder (Python) and portfolio (TypeScript) projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
