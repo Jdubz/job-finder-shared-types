@@ -417,34 +417,63 @@ npm test
 This runs TypeScript compilation without emitting files to catch type errors.
 
 ### Publishing
+Publishing is automated via GitHub Actions whenever a new semantic version tag is pushed.
 
-Publishing is done automatically via GitHub Actions when changes are pushed to the main branch with an updated version number.
+#### Publishing Workflow
 
-#### Automated Publishing Workflow
+1. **Update the version** following [Semantic Versioning](https://semver.org/):
+  ```bash
+  npm version patch  # Bug fixes (1.1.1 -> 1.1.2)
+  npm version minor  # New features (1.1.2 -> 1.2.0)
+  npm version major  # Breaking changes (1.2.0 -> 2.0.0)
+  ```
 
-1. **Update the version** in `package.json`:
-   ```bash
-   npm version patch  # For bug fixes (1.1.1 → 1.1.2)
-   npm version minor  # For new features (1.1.2 → 1.2.0)
-   npm version major  # For breaking changes (1.2.0 → 2.0.0)
-   ```
+2. **Update `CHANGELOG.md`**:
+  - Document changes in the `[Unreleased]` section
+  - Move them into a new version section using [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format
 
-2. **Update CHANGELOG.md** with your changes
+3. **Commit the release**:
+  ```bash
+  git add .
+  git commit -m "chore: release vX.Y.Z"
+  ```
 
-3. **Commit and push** to the main branch:
-   ```bash
-   git add package.json CHANGELOG.md
-   git commit -m "chore: bump version to x.x.x"
-   git push origin main
-   ```
+4. **Push code and tags**:
+  ```bash
+  git push
+  git push --tags
+  ```
 
-4. **GitHub Actions automatically**:
-   - Runs type checks and builds the package
-   - Compares the version in package.json with the published version on npm
-   - Publishes to npm (if the version is new)
-   - Creates a git tag for the release
+5. **Monitor the workflow**:
+  - GitHub Actions runs `npm test` and `npm run build`
+  - Confirms the version is new on npm
+  - Publishes the package if everything succeeds
+  - Track progress at https://github.com/Jdubz/job-finder-shared-types/actions
 
-**Note:** The NPM_TOKEN secret must be configured in the repository settings for automated publishing to work. See [.github/workflows/README.md](.github/workflows/README.md) for setup instructions.
+6. **Verify publication**:
+  ```bash
+  open https://www.npmjs.com/package/@jdubzw/job-finder-shared-types
+  npm install @jdubzw/job-finder-shared-types@latest
+  ```
+
+**Note:** Ensure the `NPM_TOKEN` secret is configured in repository settings; see [.github/workflows/README.md](.github/workflows/README.md) for details.
+
+#### Manual Publishing (Not Recommended)
+
+If emergency publishing is required:
+
+```bash
+npm run clean && npm run build
+npm publish --dry-run
+npm publish  # Requires NPM_TOKEN in local env
+```
+
+#### Troubleshooting
+
+- **Version already exists**: Bump version with `npm version patch`
+- **Authentication error**: Ensure `NPM_TOKEN` secret is set in GitHub repo settings
+- **Build fails**: Run `npm test` and `npm run build` locally first
+- **Tag conflicts**: Delete local tag with `git tag -d v1.x.x` and remote with `git push origin :refs/tags/v1.x.x`
 
 ## Related Projects
 

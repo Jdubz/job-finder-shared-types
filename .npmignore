@@ -1,31 +1,42 @@
-# Development files
+# Development and git metadata
 .github/
 .husky/
-docs/
-node_modules/
-
-# Test and build artifacts
-*.tgz
-coverage/
-.nyc_output/
-
-# Configuration files
-.gitignore
 .git/
+.gitignore
 .editorconfig
 .eslintrc*
 .prettierrc*
-tsconfig.tsbuildinfo
+.vscode/
+.idea/
+node_modules/
 
-# Documentation that's not needed in package
+# Temporary editor files
+*.swp
+*.swo
+*~
+
+# Documentation not required in published package
 CONTEXT.md
+docs/
 
-# Keep these in the package:
-# - README.md (included via files field)
-# - LICENSE (included via files field)
-# - dist/ (included via files field)
-# - src/ (included via files field)
-# - CHANGELOG.md (useful for consumers)
+# Tests and coverage artifacts
+__tests__/
+*.test.ts
+*.spec.ts
+coverage/
+.nyc_output/
+
+# Logs and package artifacts
+*.log
+*.tgz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript build metadata
+tsconfig.json
+tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # OS files
 .DS_Store
