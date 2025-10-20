@@ -206,6 +206,94 @@ AI provider configuration.
 - `StopListCheckResult`: Validation result with `allowed` and optional `reason`
 - `QueueStats`: Statistics with counts by status
 
+## Type Guards
+
+Type guards provide runtime type checking for validating data structures. These are especially useful when reading from Firestore or validating API inputs.
+
+### Available Type Guards
+
+#### Queue Types
+- `isQueueStatus(value)` - Validates QueueStatus enum
+- `isQueueItemType(value)` - Validates QueueItemType enum
+- `isQueueSource(value)` - Validates QueueSource enum
+- `isQueueItem(value)` - Validates complete QueueItem structure
+- `isStopList(value)` - Validates StopList configuration
+- `isQueueSettings(value)` - Validates QueueSettings configuration
+- `isAIProvider(value)` - Validates AIProvider enum
+- `isAISettings(value)` - Validates AISettings configuration
+
+#### Job Types
+- `isJobListing(value)` - Validates JobListing structure
+- `isJobMatch(value)` - Validates JobMatch structure
+- `isCompany(value)` - Validates Company structure
+- `isResumeIntakeData(value)` - Validates ResumeIntakeData structure
+- `isExperienceHighlight(value)` - Validates ExperienceHighlight structure
+- `isProjectRecommendation(value)` - Validates ProjectRecommendation structure
+- `isGapMitigation(value)` - Validates GapMitigation structure
+
+#### Content Item Types
+- `isContentItemType(value)` - Validates ContentItemType enum
+- `isContentItemVisibility(value)` - Validates ContentItemVisibility enum
+- `isContentItem(value)` - Validates any ContentItem (union type)
+- `isCompanyItem(value)` - Validates CompanyItem specifically
+- `isProjectItem(value)` - Validates ProjectItem specifically
+- `isSkillGroupItem(value)` - Validates SkillGroupItem specifically
+- `isEducationItem(value)` - Validates EducationItem specifically
+- `isProfileSectionItem(value)` - Validates ProfileSectionItem specifically
+- `isAccomplishmentItem(value)` - Validates AccomplishmentItem specifically
+
+### Usage Examples
+
+```typescript
+import {
+  isQueueItem,
+  isJobMatch,
+  isContentItem,
+  QueueItem,
+  JobMatch
+} from '@jdubz/job-finder-shared-types'
+
+// Example 1: Validating Firestore data
+async function getQueueItem(id: string): Promise<QueueItem | null> {
+  const doc = await firestore.collection('job-queue').doc(id).get()
+  const data = doc.data()
+  
+  if (isQueueItem(data)) {
+    // TypeScript knows data is QueueItem here
+    console.log(`Status: ${data.status}`)
+    return data
+  }
+  
+  console.error('Invalid queue item data')
+  return null
+}
+
+// Example 2: Validating API request body
+function handleSubmitJob(body: unknown) {
+  if (isQueueItem(body)) {
+    // Safe to use as QueueItem
+    processQueueItem(body)
+  } else {
+    throw new Error('Invalid queue item format')
+  }
+}
+
+// Example 3: Type narrowing with union types
+function processContentItem(item: unknown) {
+  if (isContentItem(item)) {
+    // TypeScript knows item is ContentItem
+    console.log(`Type: ${item.type}, ID: ${item.id}`)
+    
+    // Further narrow the type
+    if (isProjectItem(item)) {
+      console.log(`Project: ${item.name}`)
+    } else if (isCompanyItem(item)) {
+      console.log(`Company: ${item.company}`)
+    }
+  }
+}
+```
+
 ## Type Mapping
 
 ### TypeScript → Python Mapping Table
