@@ -9,7 +9,7 @@
 
 ```yaml
 Title: TYPES-1 — Define Shared TypeScript Types
-Labels: [priority-p1, repository-shared-types, type-feature, status-todo]
+Labels: [priority-p1, repository-shared-types, type-feature, status-done]
 Assignee: PM
 Priority: P1-High
 Estimated Effort: 2-3 days
@@ -25,6 +25,15 @@ Repository: job-finder-shared-types
 **Goal**: Establish complete, well-documented TypeScript type definitions that serve as the single source of truth for all job-finder repositories.
 
 **Impact**: All three consuming repositories (FE, BE, worker) depend on accurate types for type safety, autocomplete, and preventing runtime errors. Python worker repo will mirror these types using Pydantic.
+
+---
+
+## Resolution
+
+- Queue, job, content, and configuration types now cover the full Firestore document surface with string literal unions for status fields (`src/queue.types.ts`, `src/job.types.ts`, `src/content-item.types.ts`, `src/config.types.ts`).
+- Type guard suite in `src/guards.ts` validates queue items, job matches, and composite content records while re-exporting queue enums for consumers.
+- README usage examples updated in `job-finder-shared-types/README.md`; `src/index.ts` exports all new types and guards.
+- Validation commands executed 2025-10-20: `npm test` (`tsc --noEmit`) and `npm run build` confirm type-check and build succeed.
 
 ---
 
@@ -153,16 +162,16 @@ export function isQueueItem(obj: unknown): obj is QueueItem {
 
 ## Acceptance Criteria
 
-- [ ] **QueueItem types complete**: All fields documented, matches Firestore queue collection
-- [ ] **JobMatch types complete**: Includes all AI analysis fields, resumeIntakeData
-- [ ] **ContentItem types complete**: Experience, skills, projects, education types defined
-- [ ] **Configuration types complete**: AISettings, QueueSettings, StopList defined
-- [ ] **Enums defined**: All status/type enums exported as string literal unions
-- [ ] **Type guards implemented**: At least 3 core type guards (QueueItem, JobMatch, ContentItem)
-- [ ] **Package builds**: `npm run build` succeeds with no errors
-- [ ] **Type checking passes**: `npm test` (tsc --noEmit) succeeds
-- [ ] **Exports updated**: All new types exported from `src/index.ts`
-- [ ] **Documentation updated**: README.md includes examples of new types
+- [x] **QueueItem types complete**: All fields documented, matches Firestore queue collection
+- [x] **JobMatch types complete**: Includes all AI analysis fields, resumeIntakeData
+- [x] **ContentItem types complete**: Experience, skills, projects, education types defined
+- [x] **Configuration types complete**: AISettings, QueueSettings, StopList defined
+- [x] **Enums defined**: All status/type enums exported as string literal unions
+- [x] **Type guards implemented**: At least 3 core type guards (QueueItem, JobMatch, ContentItem)
+- [x] **Package builds**: `npm run build` succeeds with no errors
+- [x] **Type checking passes**: `npm test` (tsc --noEmit) succeeds
+- [x] **Exports updated**: All new types exported from `src/index.ts`
+- [x] **Documentation updated**: README.md includes examples of new types
 
 ---
 
@@ -327,4 +336,4 @@ Closes #2
 **Created**: 2025-10-20
 **Created By**: PM
 **Last Updated**: 2025-10-20
-**Status**: Todo
+**Status**: Done

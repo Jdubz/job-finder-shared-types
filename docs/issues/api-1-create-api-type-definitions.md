@@ -9,7 +9,7 @@
 
 ```yaml
 Title: API-1 — Create API Type Definitions
-Labels: [priority-p1, repository-shared-types, type-feature, status-todo]
+Labels: [priority-p1, repository-shared-types, type-feature, status-done]
 Assignee: PM
 Priority: P1-High
 Estimated Effort: 2-3 days
@@ -25,6 +25,14 @@ Repository: job-finder-shared-types
 **Goal**: Define comprehensive TypeScript types for all API request/response payloads, error responses, and Firebase Functions callable types to ensure type safety across FE-BE communication.
 
 **Impact**: Eliminates entire class of bugs related to API contract mismatches. Enables both FE and BE to catch type errors at compile time instead of runtime. Improves developer experience with autocomplete for API payloads.
+
+---
+
+## Resolution
+
+- Established base API response types, error codes, pagination helpers, and callable validators in `src/api.types.ts`, with generator/content/queue API payloads in dedicated modules under `src/api/`.
+- Added API response helpers (`isApiSuccess`, `isApiError`, `isApiResponse`) to `src/guards.ts` and re-exported all API modules from `src/index.ts` for single-entry consumption.
+- Verified consuming repos compile with the new types: shared package `npm test` + `npm run build`, frontend `npm run type-check`, backend `npm run build` on 2025-10-20.
 
 ---
 
@@ -225,17 +233,17 @@ export enum ApiErrorCode {
 
 ## Acceptance Criteria
 
-- [ ] **Base API types defined**: ApiResponse, ApiSuccessResponse, ApiErrorResponse
-- [ ] **Generator API types complete**: Resume and cover letter generation types
-- [ ] **Content API types complete**: CRUD operation types for content items
-- [ ] **Queue API types complete**: Job submission and status update types
-- [ ] **Error types comprehensive**: Error codes enum, detailed error structure
-- [ ] **Firebase callable types**: CallableRequest, CallableResponse, CallableContext
-- [ ] **Type guards implemented**: isApiError, isApiSuccess functions
-- [ ] **Package builds**: `npm run build` succeeds with no errors
-- [ ] **Exports updated**: All API types exported from src/index.ts
-- [ ] **FE integration verified**: Types importable and usable in job-finder-FE
-- [ ] **BE integration verified**: Types importable and usable in job-finder-BE
+- [x] **Base API types defined**: ApiResponse, ApiSuccessResponse, ApiErrorResponse
+- [x] **Generator API types complete**: Resume and cover letter generation types
+- [x] **Content API types complete**: CRUD operation types for content items
+- [x] **Queue API types complete**: Job submission and status update types
+- [x] **Error types comprehensive**: Error codes enum, detailed error structure
+- [x] **Firebase callable types**: CallableRequest, CallableResponse, CallableContext
+- [x] **Type guards implemented**: isApiError, isApiSuccess functions
+- [x] **Package builds**: `npm run build` succeeds with no errors
+- [x] **Exports updated**: All API types exported from src/index.ts
+- [x] **FE integration verified**: Types importable and usable in job-finder-FE
+- [x] **BE integration verified**: Types importable and usable in job-finder-BE
 
 ---
 
@@ -411,4 +419,4 @@ Closes #4
 **Created**: 2025-10-20
 **Created By**: PM
 **Last Updated**: 2025-10-20
-**Status**: Todo
+**Status**: Done

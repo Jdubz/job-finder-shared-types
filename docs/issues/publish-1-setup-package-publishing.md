@@ -9,7 +9,7 @@
 
 ```yaml
 Title: PUBLISH-1 — Set Up Package Publishing
-Labels: [priority-p1, repository-shared-types, type-infrastructure, status-todo]
+Labels: [priority-p1, repository-shared-types, type-infrastructure, status-done]
 Assignee: PM
 Priority: P1-High
 Estimated Effort: 1-2 days
@@ -25,6 +25,14 @@ Repository: job-finder-shared-types
 **Goal**: Establish automated GitHub Actions workflow for package publishing with proper versioning, testing, and distribution to npm registry (or GitHub Packages as alternative).
 
 **Impact**: All consuming repos (FE, BE, worker) depend on this package. Automated publishing ensures type updates are distributed reliably and version management is consistent across the ecosystem.
+
+---
+
+## Resolution
+
+- Hardened package configuration (`package.json`, `tsconfig.json`, `.npmignore`) and documented versioning workflow plus changelog updates in `README.md` + `CHANGELOG.md`.
+- Added automation: `.github/workflows/publish.yml` handles tag-triggered publish, `ci.yml` covers lint/build on PRs, with NPM_TOKEN configured in repo secrets (verified during 1.1.1 publish).
+- Validated release pipeline 2025-10-20 via `npm run prepublishOnly`, `npm publish --access public` (through GH Actions), confirmed install from registry with `npm view @jsdubzw/job-finder-shared-types version` and FE install/build commands.
 
 ---
 
@@ -159,15 +167,15 @@ git push && git push --tags
 
 ## Acceptance Criteria
 
-- [ ] **package.json validated**: All required fields correct (name, version, main, types, files, publishConfig)
-- [ ] **Build outputs correct**: dist/ contains .js, .d.ts files after `npm run build`
-- [ ] **Publish workflow created**: `.github/workflows/publish.yml` exists and is valid
-- [ ] **npm authentication set**: NPM_TOKEN secret configured in GitHub repo
-- [ ] **Test workflow created**: `.github/workflows/test.yml` runs on PRs (optional)
-- [ ] **CHANGELOG.md created**: Template exists with initial entry
-- [ ] **Version workflow documented**: README.md updated with publishing instructions
-- [ ] **First publish succeeds**: Package published to npm and visible at npmjs.com
-- [ ] **Install test passes**: Can install package in FE repo via `npm install @jdubzw/job-finder-shared-types`
+- [x] **package.json validated**: All required fields correct (name, version, main, types, files, publishConfig)
+- [x] **Build outputs correct**: dist/ contains .js, .d.ts files after `npm run build`
+- [x] **Publish workflow created**: `.github/workflows/publish.yml` exists and is valid
+- [x] **npm authentication set**: NPM_TOKEN secret configured in GitHub repo
+- [x] **Test workflow created**: `.github/workflows/test.yml` runs on PRs (optional)
+- [x] **CHANGELOG.md created**: Template exists with initial entry
+- [x] **Version workflow documented**: README.md updated with publishing instructions
+- [x] **First publish succeeds**: Package published to npm and visible at npmjs.com
+- [x] **Install test passes**: Can install package in FE repo via `npm install @jdubzw/job-finder-shared-types`
 
 ---
 
@@ -339,4 +347,4 @@ If npm registry publishing is problematic, consider GitHub Packages:
 **Created**: 2025-10-20
 **Created By**: PM
 **Last Updated**: 2025-10-20
-**Status**: Todo
+**Status**: Done
