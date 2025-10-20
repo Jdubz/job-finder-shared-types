@@ -1,13 +1,14 @@
 /**
  * Type Guard Functions
  *
- * Runtime type checking functions for validating data structures.
- * These are especially useful when reading from Firestore or validating API inputs.
+ * Runtime validation helpers for shared domain types and API responses.
+ * Use these guards when reading from Firestore, handling API payloads, or
+ * validating user input across services.
  *
  * Usage:
  * ```typescript
  * if (isQueueItem(data)) {
- *   // TypeScript knows data is QueueItem here
+ *   // TypeScript narrows data to QueueItem here
  *   console.log(data.status)
  * }
  * ```
@@ -52,6 +53,7 @@ import type {
   ProfileSectionItem,
   AccomplishmentItem,
 } from "./content-item.types"
+import type { ApiResponse, ApiSuccessResponse, ApiErrorResponse } from "./api.types"
 
 /**
  * Helper: Check if value is a non-null object
@@ -538,4 +540,143 @@ export function isContentItem(value: unknown): value is ContentItem {
     isProfileSectionItem(value) ||
     isAccomplishmentItem(value)
   )
+}
+
+// ============================================
+// API Response Guards
+// ============================================
+
+/**
+ * Type guard to check if API response is successful.
+ * Uses discriminated union property `success`.
+ */
+export function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccessResponse<T> {
+  return response.success === true
+}
+
+/**
+ * Type guard to check if API response is an error.
+ */
+export function isApiError<T>(response: ApiResponse<T>): response is ApiErrorResponse {
+  return response.success === false
+}
+
+/**
+ * Type guard to validate the general ApiResponse structure.
+ */
+export function isApiResponse(value: unknown): value is ApiResponse<unknown> {
+  if (!isObject(value)) {
+    return false
+  }
+
+  const obj = value as Record<string, unknown>
+  const success = obj.success
+
+  if (typeof success !== "boolean") {
+    return false
+  }
+
+  if (success === true) {
+    return Object.prototype.hasOwnProperty.call(obj, "data")
+  }
+
+  if (!isObject(obj.error)) {
+    return false
+  }
+
+  const error = obj.error as Record<string, unknown>
+  return typeof error.code === "string" && typeof error.message === "string"
+}
+
+/**
+ * Type guard to check if an API error carries a specific error code.
+ */
+export function hasErrorCode(response: ApiErrorResponse, code: string): boolean {
+  return response.error.code === code
+}
+
+/**
+ * Type guard to check if value is a Date object.
+ */
+export function isDate(value: unknown): value is Date {
+  return value instanceof Date && !Number.isNaN(value.getTime())
+}
+
+/**
+ * Type guard to confirm value is an ISO 8601 date string.
+ */
+export function isISODateString(value: unknown): value is string {
+  if (typeof value !== "string") {
+    return false
+  }
+
+  const date = new Date(value)
+  return !Number.isNaN(date.getTime()) && date.toISOString() === value
+}
+
+/**
+ * Type guard to ensure value is a non-empty string.
+ */
+export function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0
+}
+
+/**
+ * Type guard to ensure value is a non-empty array.
+ */
+export function isNonEmptyArray<T>(value: unknown): value is T[] {
+  return Array.isArray(value) && value.length > 0
+}
+
+/**
+ * Type guard to ensure value is an HTTP/HTTPS URL string.
+ */
+export function isValidUrl(value: unknown): value is string {
+  if (typeof value !== "string") {
+    return false
+  }
+
+  const urlPattern = /^(https?):\/\/./
+  return urlPattern.test(value)
+}
+
+/**
+ * Simple email validation guard.
+ */
+export function isValidEmail(value: unknown): value is string {
+  if (typeof value !== "string") {
+    return false
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(value)
+}
+
+/**
+ * Helper to build a typed success response.
+ */
+export function createSuccessResponse<T>(data: T, message?: string): ApiSuccessResponse<T> {
+  return {
+    success: true,
+    data,
+    ...(message && { message }),
+  }
+}
+
+/**
+ * Helper to build a typed error response.
+ */
+export function createErrorResponse(
+  code: string,
+  message: string,
+  details?: Record<string, unknown>
+): ApiErrorResponse {
+  return {
+    success: false,
+    error: {
+      code,
+      message,
+      ...(details && { details }),
+    },
+  }
 }
