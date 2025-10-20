@@ -1,0 +1,33 @@
+# Development files
+.github/
+.husky/
+docs/
+node_modules/
+
+# Test and build artifacts
+*.tgz
+coverage/
+.nyc_output/
+
+# Configuration files
+.gitignore
+.git/
+.editorconfig
+.eslintrc*
+.prettierrc*
+tsconfig.tsbuildinfo
+
+# Documentation that's not needed in package
+CONTEXT.md
+docs/
+
+# Keep these in the package:
+# - README.md (included via files field)
+# - LICENSE (included via files field)
+# - dist/ (included via files field)
+# - src/ (included via files field)
+# - CHANGELOG.md (useful for consumers)
+
+# OS files
+.DS_Store
+Thumbs.db
