@@ -7,7 +7,7 @@
  * Used by both job-finder-BE (Cloud Functions) and job-finder-FE.
  */
 
-import { Timestamp } from "firebase-admin/firestore"
+import type { TimestampLike } from "./firestore.types"
 
 /**
  * Content item type discriminator
@@ -43,8 +43,8 @@ export interface BaseContentItem {
   userId: string
   parentId: string | null
   order: number
-  createdAt: Timestamp | Date
-  updatedAt: Timestamp | Date
+  createdAt: TimestampLike
+  updatedAt: TimestampLike
   createdBy: string
   updatedBy: string
   visibility?: ContentItemVisibility

@@ -8,7 +8,7 @@
  * NOTE: Blurb service deprecated - using content items directly
  */
 
-import { Timestamp } from "firebase-admin/firestore"
+import type { TimestampLike } from "./firestore.types"
 
 /**
  * Generation type - what to generate
@@ -71,8 +71,8 @@ export interface ExperienceEntry {
   technologies?: string[]
   type: "experience"
   userId: string
-  createdAt: Timestamp | Date
-  updatedAt: Timestamp | Date
+  createdAt: TimestampLike
+  updatedAt: TimestampLike
 }
 
 /**
@@ -162,8 +162,8 @@ export interface GenerationStep {
   name: string
   description: string
   status: GenerationStepStatus
-  startedAt?: Timestamp | Date
-  completedAt?: Timestamp | Date
+  startedAt?: TimestampLike
+  completedAt?: TimestampLike
   duration?: number
   result?: {
     resumeUrl?: string
@@ -209,7 +209,7 @@ export interface GeneratorRequest {
     viewerSessionId?: string
     isPublic: boolean
   }
-  createdAt: Timestamp | Date
+  createdAt: TimestampLike
   createdBy: string | null
 }
 
@@ -241,14 +241,14 @@ export interface GeneratorResponse {
     resume?: {
       gcsPath: string
       signedUrl?: string
-      signedUrlExpiry?: Timestamp | Date
+  signedUrlExpiry?: TimestampLike
       size?: number
       storageClass?: "STANDARD" | "COLDLINE"
     }
     coverLetter?: {
       gcsPath: string
       signedUrl?: string
-      signedUrlExpiry?: Timestamp | Date
+  signedUrlExpiry?: TimestampLike
       size?: number
       storageClass?: "STANDARD" | "COLDLINE"
     }
@@ -265,8 +265,8 @@ export interface GeneratorResponse {
     costUsd?: number
     model: string
   }
-  createdAt: Timestamp | Date
-  updatedAt?: Timestamp | Date
+  createdAt: TimestampLike
+  updatedAt?: TimestampLike
 }
 
 /**
@@ -343,8 +343,8 @@ export interface PersonalInfoDocument {
     }
   }
   userId: string
-  createdAt: Timestamp | Date
-  updatedAt: Timestamp | Date
+  createdAt: TimestampLike
+  updatedAt: TimestampLike
   updatedBy?: string
 }
 
