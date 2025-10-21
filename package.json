@@ -15,6 +15,7 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "test": "tsc --noEmit",
+    "test:ci": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "prepare": "husky"
   },
