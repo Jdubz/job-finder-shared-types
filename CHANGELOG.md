@@ -7,14 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-10-21
+
 ### Added
-- Automated package publishing workflow via GitHub Actions
-- CHANGELOG.md for tracking version history
-- .npmignore for optimizing published package contents
+- **Complete Firestore Schema Types**: Codified production database schema from portfolio database
+  - `QueueItemDocument`: Job queue collection schema
+  - `CompanyDocument`: Companies collection with priority scoring and tech stack
+  - `ContentItemDocument`: Portfolio content items with multiple content types (company, project, skill-group, text-section, profile-section)
+  - `ContactSubmissionDocument`: Contact form submissions with email transaction tracking
+  - `UserDocument`: User authentication and profile structure
+  - `ConfigDocument`: Application configuration documents
+- **Type Guards for Firestore Schema**: Runtime validation for all Firestore document types
+  - Collection-specific guards (isQueueItemDocument, isCompanyDocument, etc.)
+  - Enum guards for document status and types
+- **Schema Extraction Script**: Automated tool to extract schema from production Firestore (`scripts/extract-firestore-schema.js`)
+- **Firestore Schema Documentation**: Comprehensive docs for all collections and document types
+- Exported schema types and guards from main package index
 
 ### Changed
-- Publish workflow triggers on semantic version tags (`v*.*.*`)
-- CI workflow runs on pull requests to guard publishing quality
+- Renamed Firestore schema types to avoid conflicts with existing application types
+  - Used "Document" suffix for Firestore-specific types (e.g., `QueueItemDocument` vs `QueueItem`)
+  - Enum types also renamed (e.g., `QueueItemDocumentStatus` vs `QueueItemStatus`)
+- Re-exported Firestore schema guards from main guards module for convenience
+
+### Fixed
+- Type conflicts between application layer types and database schema types
 
 ## [1.1.1] - 2025-10-20
 
@@ -45,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript type definitions with `.d.ts` output
 - Python integration examples
 
-[Unreleased]: https://github.com/Jdubz/job-finder-shared-types/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/Jdubz/job-finder-shared-types/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/Jdubz/job-finder-shared-types/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/Jdubz/job-finder-shared-types/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/Jdubz/job-finder-shared-types/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Jdubz/job-finder-shared-types/releases/tag/v1.0.0
