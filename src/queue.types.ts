@@ -148,6 +148,9 @@ export interface QueueItem {
 
   // Company granular pipeline fields (only used when type is "company" with company_sub_task)
   company_sub_task?: CompanySubTask | null // Company pipeline step (fetch/extract/analyze/save). null = legacy monolithic processing
+
+  // Additional metadata (for pre-generated documents or other contextual data)
+  metadata?: Record<string, any> | null
 }
 
 /**
