@@ -1,6 +1,6 @@
 {
   "name": "@jsdubzw/job-finder-shared-types",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Shared TypeScript type definitions for job-finder (Python) and portfolio (TypeScript) projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,6 +15,7 @@
     "clean": "rm -rf dist",
     "prepublishOnly": "npm run clean && npm run build",
     "test": "tsc --noEmit",
+    "test:ci": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "prepare": "husky"
   },

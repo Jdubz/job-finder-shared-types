@@ -680,3 +680,23 @@ export function createErrorResponse(
     },
   }
 }
+
+// ============================================
+// Firestore Schema Guards
+// ============================================
+
+// Re-export all Firestore schema guards for convenience
+export {
+  isQueueItemStatus as isQueueItemDocumentStatus,
+  isQueueItemType as isQueueItemDocumentType,
+  isQueueSource as isQueueItemDocumentSource,
+  isQueueItemDocument,
+  isCompanyTier,
+  isCompanyDocument,
+  isContentItemType as isContentItemDocumentType,
+  isContentItemVisibility as isContentItemDocumentVisibility,
+  isContentItemDocument,
+  isContactSubmissionDocument,
+  isUserDocument,
+  isConfigDocument,
+} from "./firestore-schema.guards"
