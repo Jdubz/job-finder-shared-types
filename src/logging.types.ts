@@ -22,6 +22,10 @@ export type LogCategory =
   | "scrape"      // Web scraping operations
   | "ai"          // AI model operations
   | "database"    // Firestore operations
+  | "api"         // API requests/responses (backend)
+  | "auth"        // Authentication operations
+  | "client"      // Client-side operations (frontend)
+  | "system"      // System-level operations
 
 /**
  * Log level - severity of the log entry
@@ -89,10 +93,25 @@ export interface StructuredLogEntry {
   action: LogAction | string  // Common actions or custom string
   message: string             // Human-readable message
 
+  // Correlation and tracing
+  requestId?: string          // Request correlation ID (for tracing across services)
+  userId?: string             // User ID associated with the operation
+  sessionId?: string          // Session ID (for frontend logs)
+
   // Context fields (optional - link to queue items and pipeline)
   queueItemId?: string        // Associated queue item ID (for filtering logs by job)
   queueItemType?: "job" | "company" | "scrape" | "source_discovery"
   pipelineStage?: PipelineStage
+
+  // HTTP request context (for API logs)
+  http?: {
+    method?: string           // GET, POST, PUT, DELETE, etc.
+    path?: string             // /api/queue/submit
+    statusCode?: number       // 200, 404, 500, etc.
+    userAgent?: string        // User agent string
+    ip?: string               // Client IP address
+    duration?: number         // Request duration in milliseconds
+  }
 
   // Metadata (optional - additional structured data)
   details?: {
@@ -126,7 +145,7 @@ export interface StructuredLogEntry {
  * labels.service="job-finder"
  * ```
  */
-export interface CloudLoggingLabels {
+export interface CloudLoggingLabels extends Record<string, string> {
   environment: "staging" | "production" | "development"
   service: string      // e.g., "job-finder"
   version: string      // e.g., "1.0.0"
