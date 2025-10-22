@@ -502,11 +502,11 @@ export type FirestoreCollectionName =
   | 'job-matches'
   | 'companies'
   | 'content-items'
-  | 'generator-documents'
+  | 'generator-documents'  // Renamed from "generator" in portfolio app
+  | 'job-finder-config'    // App configuration (ai-settings, personal-info, etc)
   | 'blurbs'
   | 'experiences'
   | 'contact-submissions'
-  | 'config'
   | 'users'
 
 /**
