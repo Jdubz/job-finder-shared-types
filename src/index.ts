@@ -1,5 +1,5 @@
 /**
- * @jdubzw/job-finder-shared-types
+ * @jsdubzw/job-finder-shared-types
  *
  * Shared TypeScript types for job-finder integration (BE + FE)
  */
