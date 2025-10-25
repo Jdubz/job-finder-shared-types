@@ -1,0 +1,14 @@
+#!/bin/sh
+. "$(dirname "$0")/_/h"
+
+# Pre-push hook: Blocking build test
+echo "🧪 Running pre-push checks..."
+
+# Run build to ensure types compile
+echo "🔧 Running build test..."
+npm run build || {
+  echo "❌ Build failed! Please fix TypeScript errors before pushing."
+  exit 1
+}
+
+echo "✅ Pre-push checks passed!"
