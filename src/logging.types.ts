@@ -22,6 +22,7 @@ export type LogCategory =
   | "scrape"      // Web scraping operations
   | "ai"          // AI model operations
   | "database"    // Firestore operations
+  | "system"      // System-level operations
 
 /**
  * Log level - severity of the log entry
@@ -93,6 +94,17 @@ export interface StructuredLogEntry {
   queueItemId?: string        // Associated queue item ID (for filtering logs by job)
   queueItemType?: "job" | "company" | "scrape" | "source_discovery"
   pipelineStage?: PipelineStage
+
+  // BE-specific fields (optional - for Cloud Functions)
+  userId?: string             // User ID for authenticated requests
+  requestId?: string          // Request ID for tracing
+  http?: {                    // HTTP request details
+    method?: string
+    url?: string
+    userAgent?: string
+    remoteIp?: string
+    statusCode?: number
+  }
 
   // Metadata (optional - additional structured data)
   details?: {

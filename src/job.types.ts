@@ -9,6 +9,8 @@
  * - Firestore schema expectations in both projects
  */
 
+import type { TimestampLike } from "./firestore.types"
+
 /**
  * Standard job listing structure returned by scrapers.
  *
@@ -258,10 +260,10 @@ export interface JobMatch {
   resumeIntakeData?: ResumeIntakeData
 
   /** When AI analysis was performed */
-  analyzedAt: Date | any // FirebaseFirestore.Timestamp
+  analyzedAt: TimestampLike
 
   /** When record was created in Firestore */
-  createdAt: Date | any // FirebaseFirestore.Timestamp
+  createdAt: TimestampLike
 
   /** User ID who submitted the job */
   submittedBy: string | null
@@ -319,8 +321,8 @@ export interface Company {
   analysisStatus?: "pending" | "in_progress" | "complete" | "failed" | null
 
   /** When company was added */
-  createdAt?: Date | any // FirebaseFirestore.Timestamp
+  createdAt?: TimestampLike
 
   /** When company record was last updated */
-  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedAt?: TimestampLike
 }

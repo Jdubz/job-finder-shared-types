@@ -17,9 +17,8 @@ export type GenerationType = "resume" | "coverLetter" | "both"
 
 /**
  * AI Provider type
- * NOTE: Only OpenAI supported initially, Gemini temporarily removed
  */
-export type AIProviderType = "openai"
+export type AIProviderType = "openai" | "gemini"
 
 /**
  * Token usage tracking for AI generation
@@ -192,8 +191,11 @@ export interface GeneratorRequest {
   preferences?: {
     emphasize?: string[]
   }
-  experienceData: {
+  experienceData?: {
     entries: ExperienceEntry[]
+  }
+  contentData?: {
+    items: unknown[] // ContentItem[] - using unknown to avoid circular dependency
   }
   status: "pending" | "processing" | "completed" | "failed"
   steps?: GenerationStep[]
@@ -205,7 +207,7 @@ export interface GeneratorRequest {
     model?: string
   }
   access: {
-    userId: string
+    userId?: string
     viewerSessionId?: string
     isPublic: boolean
   }
@@ -232,6 +234,8 @@ export interface GeneratorResponse {
         | "fetch_experience"
         | "openai_resume"
         | "openai_cover_letter"
+        | "openai_generation"
+        | "gemini_generation"
         | "pdf_generation"
         | "gcs_upload"
       details?: unknown

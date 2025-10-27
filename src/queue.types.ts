@@ -8,6 +8,8 @@
  * - Firestore schema expectations in both projects
  */
 
+import type { TimestampLike } from "./firestore.types"
+
 /**
  * Queue item status lifecycle:
  * pending → processing → success/failed/skipped/filtered
@@ -133,10 +135,10 @@ export interface QueueItem {
   max_retries: number
   result_message?: string
   error_details?: string
-  created_at: Date | any // FirebaseFirestore.Timestamp
-  updated_at: Date | any // FirebaseFirestore.Timestamp
-  processed_at?: Date | any | null // FirebaseFirestore.Timestamp
-  completed_at?: Date | any | null // FirebaseFirestore.Timestamp
+  created_at: TimestampLike
+  updated_at: TimestampLike
+  processed_at?: TimestampLike | null
+  completed_at?: TimestampLike | null
   scrape_config?: ScrapeConfig | null // Configuration for scrape requests (only used when type is "scrape")
   scraped_data?: Record<string, any> | null // Pre-scraped job or company data
   source_discovery_config?: SourceDiscoveryConfig | null // Configuration for source discovery (only used when type is "source_discovery")
@@ -160,7 +162,7 @@ export interface StopList {
   excludedCompanies: string[]
   excludedKeywords: string[]
   excludedDomains: string[]
-  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedAt?: TimestampLike
   updatedBy?: string // User email
 }
 
@@ -171,7 +173,7 @@ export interface QueueSettings {
   maxRetries: number
   retryDelaySeconds: number
   processingTimeout: number
-  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedAt?: TimestampLike
   updatedBy?: string // User email
 }
 
@@ -188,34 +190,8 @@ export interface AISettings {
   model: string
   minMatchScore: number
   costBudgetDaily: number
-  updatedAt?: Date | any // FirebaseFirestore.Timestamp
+  updatedAt?: TimestampLike
   updatedBy?: string // User email
-}
-
-/**
- * Job match result (job-matches collection)
- *
- * DEPRECATED: Use JobMatch from job.types.ts instead.
- * This interface is kept for backwards compatibility only.
- *
- * @deprecated Import JobMatch from './job.types' instead
- */
-export interface JobMatchLegacy {
-  id?: string
-  url: string
-  company_name: string
-  company_id?: string | null
-  job_title: string
-  match_score: number
-  match_reasons: string[]
-  job_description: string
-  requirements: string[]
-  location?: string | null
-  salary_range?: string | null
-  analyzed_at: Date | any // FirebaseFirestore.Timestamp
-  created_at: Date | any // FirebaseFirestore.Timestamp
-  submitted_by: string | null
-  queue_item_id: string
 }
 
 /**

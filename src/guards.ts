@@ -53,6 +53,11 @@ import type {
   ProfileSectionItem,
   AccomplishmentItem,
 } from "./content-item.types"
+import type {
+  GenerationType,
+  AIProviderType,
+  GenerationStepStatus,
+} from "./generator.types"
 import type { ApiResponse, ApiSuccessResponse, ApiErrorResponse } from "./api.types"
 
 /**
@@ -182,6 +187,34 @@ export function isAISettings(value: unknown): value is AISettings {
     typeof settings.model === "string" &&
     typeof settings.minMatchScore === "number" &&
     typeof settings.costBudgetDaily === "number"
+  )
+}
+
+// ============================================
+// Generator Types Guards
+// ============================================
+
+/**
+ * Type guard for GenerationType
+ */
+export function isGenerationType(value: unknown): value is GenerationType {
+  return typeof value === "string" && ["resume", "coverLetter", "both"].includes(value)
+}
+
+/**
+ * Type guard for AIProviderType
+ */
+export function isAIProviderType(value: unknown): value is AIProviderType {
+  return typeof value === "string" && ["openai", "gemini"].includes(value)
+}
+
+/**
+ * Type guard for GenerationStepStatus
+ */
+export function isGenerationStepStatus(value: unknown): value is GenerationStepStatus {
+  return (
+    typeof value === "string" &&
+    ["pending", "in_progress", "completed", "failed", "skipped"].includes(value)
   )
 }
 
