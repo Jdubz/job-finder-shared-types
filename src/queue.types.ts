@@ -130,7 +130,7 @@ export interface QueueItem {
   company_name: string
   company_id: string | null
   source: QueueSource
-  submitted_by: string | null // User UID for user submissions
+  submitted_by?: string | null // DEPRECATED: User UID for user submissions (optional - single-owner system)
   retry_count: number
   max_retries: number
   result_message?: string

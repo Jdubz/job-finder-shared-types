@@ -253,3 +253,50 @@ export type BuildFilterParams = {
   startTime?: string
   endTime?: string
 }
+
+/**
+ * Dev Monitor log source identifiers exposed in the UI
+ */
+export type LogSource =
+  | "local-all"
+  | "local-frontend"
+  | "local-backend"
+  | "local-worker"
+  | "local-dev-monitor"
+  | "staging-all"
+  | "production-all"
+
+/**
+ * Local services with log streaming support
+ */
+export type LocalService =
+  | "firebase-emulators"
+  | "frontend-dev"
+  | "job-finder-worker"
+  | "dev-monitor-backend"
+  | "all"
+
+/**
+ * Dev Monitor log levels
+ */
+export type DevMonitorLogLevel = "ERROR" | "WARN" | "INFO" | "DEBUG"
+
+/**
+ * Dev Monitor log line structure shared between backend and frontend
+ */
+export interface DevMonitorLogLine {
+  id: string
+  service: LocalService
+  timestamp: number
+  level: DevMonitorLogLevel
+  message: string
+  raw: string
+}
+
+/**
+ * Historical log payload returned for a service
+ */
+export interface LogHistory {
+  serviceName: LocalService | "all"
+  logs: DevMonitorLogLine[]
+}
