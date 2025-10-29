@@ -11,13 +11,6 @@ This package contains TypeScript type definitions that are:
 - **Used directly** by the job-finder-FE project (TypeScript/Firebase)
 - **Mirrored** in Pydantic models by the job-finder project (Python)
 
-## Documentation
-
-- `docs/structured-logging-schema.md` — Canonical `StructuredLogEntry` type and field-level contracts.
-- `docs/firestore-schema-codification.md` — Extracted Firestore collection interfaces and runtime guards.
-- `docs/npm-publishing-setup.md` — Publishing workflow for the shared types package.
-- Shared architecture docs are vendored via submodule at `docs/shared/job-finder-docs/`.
-
 ## Installation
 
 ### For TypeScript Projects (job-finder-FE)

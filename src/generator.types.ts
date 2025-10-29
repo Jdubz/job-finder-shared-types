@@ -17,8 +17,9 @@ export type GenerationType = "resume" | "coverLetter" | "both"
 
 /**
  * AI Provider type
+ * NOTE: Only OpenAI supported initially, Gemini temporarily removed
  */
-export type AIProviderType = "openai" | "gemini"
+export type AIProviderType = "openai"
 
 /**
  * Token usage tracking for AI generation

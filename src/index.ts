@@ -1,5 +1,5 @@
 /**
- * @jdubzw/job-finder-shared-types
+ * @jsdubzw/job-finder-shared-types
  *
  * Shared TypeScript types for job-finder integration (BE + FE)
  */
@@ -11,6 +11,7 @@ export * from "./logging.types"
 export * from "./generator.types"
 export * from "./content-item.types"
 export * from "./firestore.types"
+export * from "./firestore-schema.types"
 
 // API types
 export * from "./api.types"

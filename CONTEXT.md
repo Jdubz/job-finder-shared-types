@@ -6,6 +6,10 @@ This file provides guidance to Claude Code when working with the shared-types re
 
 `@jdubz/shared-types` is a centralized TypeScript type definitions package that serves as the **single source of truth** for data structures shared across the Job Finder project.
 
+<<<<<<< HEAD
+1. **job-finder-FE** (TypeScript/Gatsby + Firebase Functions)
+2. **Job-finder** (Python with Firestore integration)
+=======
 ### Project Management
 
 **IMPORTANT**: This repository is part of a multi-repository project managed centrally.
@@ -22,6 +26,7 @@ This types package is used by:
 1. **job-finder-FE** (TypeScript/React) - Frontend application
 2. **job-finder-BE** (TypeScript/Firebase Functions) - Backend API
 3. **job-finder** (Python with Firestore) - Queue worker (mirrors types in Pydantic)
+>>>>>>> 9f441a0 (Update documentation: Add project management context)
 
 By maintaining types in this shared repository, we ensure:
 - Type consistency across TypeScript and Python codebases
@@ -31,7 +36,11 @@ By maintaining types in this shared repository, we ensure:
 
 ## Architecture Context
 
+<<<<<<< HEAD
+### Integration with job-finder-FE
+=======
 ### Integration with Frontend (job-finder-FE)
+>>>>>>> 9f441a0 (Update documentation: Add project management context)
 
 The frontend imports this package as a dependency:
 
