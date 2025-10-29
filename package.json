@@ -44,6 +44,5 @@
     "access": "public"
   },
   "dependencies": {
-    "@jsdubzw/job-finder-shared-types": "file:"
   }
 }
