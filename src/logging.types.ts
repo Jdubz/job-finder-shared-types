@@ -102,22 +102,17 @@ export interface StructuredLogEntry {
   queueItemId?: string        // Associated queue item ID (for filtering logs by job)
   queueItemType?: "job" | "company" | "scrape" | "source_discovery"
   pipelineStage?: PipelineStage
-  http?: {                    // HTTP request details
-    method?: string
-    url?: string
-    userAgent?: string
-    remoteIp?: string
-    statusCode?: number
-=======
+
   // HTTP request context (for API logs)
   http?: {
     method?: string           // GET, POST, PUT, DELETE, etc.
+    url?: string              // Request URL
     path?: string             // /api/queue/submit
     statusCode?: number       // 200, 404, 500, etc.
     userAgent?: string        // User agent string
+    remoteIp?: string         // Client IP address (alias for ip)
     ip?: string               // Client IP address
     duration?: number         // Request duration in milliseconds
->>>>>>> main
   }
 
   // Metadata (optional - additional structured data)

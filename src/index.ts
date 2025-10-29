@@ -19,8 +19,5 @@ export * from "./api/generator.types"
 export * from "./api/content.types"
 export * from "./api/queue.types"
 
-// Dev monitor types
-export * from "./dev-monitor.types"
-
 // Type guards and utilities
 export * from "./guards"

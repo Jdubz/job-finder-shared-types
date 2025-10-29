@@ -264,7 +264,6 @@ export interface JobMatch {
 
   /** When record was created in Firestore */
   createdAt: TimestampLike
->>>>>>> main
 
   /** User ID who submitted the job */
   submittedBy: string | null
