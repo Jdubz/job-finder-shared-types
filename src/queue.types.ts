@@ -130,7 +130,12 @@ export interface QueueItem {
   company_name: string
   company_id: string | null
   source: QueueSource
-  submitted_by?: string | null // DEPRECATED: User UID for user submissions (optional - single-owner system)
+  /**
+   * @deprecated Will be removed after 2024-12-31.
+   * Use the 'source' field to determine submission origin.
+   * User UID for user submissions (optional - single-owner system)
+   */
+  submitted_by?: string | null
   retry_count: number
   max_retries: number
   result_message?: string
