@@ -195,6 +195,33 @@ export interface AISettings {
 }
 
 /**
+ * Job match result (job-matches collection)
+ *
+ * DEPRECATED: Use JobMatch from job.types.ts instead.
+ * This interface is kept for backwards compatibility only.
+ *
+ * @deprecated Import JobMatch from './job.types' instead
+ */
+export interface JobMatchLegacy {
+  id?: string
+  url: string
+  company_name: string
+  company_id?: string | null
+  job_title: string
+  match_score: number
+  match_reasons: string[]
+  job_description: string
+  requirements: string[]
+  location?: string | null
+  salary_range?: string | null
+  analyzed_at: Date | any // FirebaseFirestore.Timestamp
+  created_at: Date | any // FirebaseFirestore.Timestamp
+  submitted_by: string | null
+  queue_item_id: string
+}
+
+/**
+>>>>>>> main
  * Stop list validation result
  */
 export interface StopListCheckResult {
